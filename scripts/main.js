@@ -129,17 +129,23 @@ buildDeck()
     setTimeout(function() {pointCalc()}, 1501)
     setTimeout(function() {dealerCalc()}, 1501)
     setTimeout(function() {if(dealerPoints === 21 && playerPoints != 21){
+      document.getElementById("hidden").setAttribute("src", `images/${dealerHand[1].value}_of_${dealerHand[1].suit}.png`);
       setTimeout(function(){alert("The dealer got Blackjack! Try again!"); location.reload()}, 1008)}
     console.log(playerPoints);
     console.log(dealerPoints);
     if(playerPoints === 21 && dealerPoints != 21){
+      document.getElementById("hidden").setAttribute("src", `images/${dealerHand[1].value}_of_${dealerHand[1].suit}.png`);
       setTimeout(function(){alert("You got blackjack! Play again?"); location.reload()}, 1008)}
     if(dealerPoints === 21 && playerPoints === 21){
-    alert("You both got Blackjack! A push! Try Again!")}}, 1502)
+      document.getElementById("hidden").setAttribute("src", `images/${dealerHand[1].value}_of_${dealerHand[1].suit}.png`);
+      alert("You both got Blackjack! A push! Try Again!")}}, 1502)
     how_many_cards ++   
     
     })
   document.getElementById("hit-button").addEventListener('click', function() {
+    if(playerHand.length === 0){
+      return
+    }
     playerCard()
     pointCalc()
   })
@@ -147,12 +153,15 @@ buildDeck()
     document.getElementById("hidden").setAttribute("src", `images/${dealerHand[1].value}_of_${dealerHand[1].suit}.png`);
     dealerTurn = true
     dealerCalc()
-    timer = setInterval(() => {
+    while(dealerPoints < 17 && dealerPoints <= playerPoints){
       dealerCard();
-      dealerCalc(); 
-      if (dealerPoints > 16) {clearInterval(timer)} 
-    }, 500);
-    if (dealerPoints < 17 && dealerPoints < playerPoints){timer}
+      dealerCalc();
+    }
+    // if (dealerPoints < 17 && dealerPoints < playerPoints){timer = setInterval(() => {
+    //   dealerCard();
+    //   dealerCalc(); 
+    //   if (dealerPoints > 16) {clearInterval(timer);}
+    //   }, 500);}
     
     if (dealerPoints > playerPoints && dealerPoints < 22){setTimeout(function(){alert("You lose! Try again?"); location.reload()}, 1008)}
     else if (dealerPoints === playerPoints){setTimeout(function(){alert("It's a push! Try again?"); location.reload()}, 1008)}
